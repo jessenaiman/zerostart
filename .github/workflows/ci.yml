@@ -1,34 +1,48 @@
-name: ZeroStart CI
+name: ZeroStart CI/CD
 
 on: [push, pull_request]
 
 jobs:
-  validation:
+  test:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version: ["3.13"]
+
     steps:
       - uses: actions/checkout@v4
       
-      - name: Set up Python 3.13
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: 3.13
+          python-version: ${{ matrix.python-version }}
           
-      - name: Install ZeroStart
-        run: bash scripts/poetry/install_poetry.sh
+      - name: Install Poetry
+        run: pipx install poetry
           
-      - name: Run Standards Check
+      - name: Install dependencies
+        run: poetry install --with dev --no-root
+          
+      - name: Run test suite
         run: |
-          pytest tests/test_standards.py -v \
+          poetry run pytest tests/ -v \
+            --cov=src \
+            --cov-report=xml \
             --tb=short \
-            --color=yes \
             --strict-markers
             
-      - name: Security Scan
-        run: bandit -r src/ -ll
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+            
+      - name: Run security scan
+        run: poetry run bandit -r src/ -ll
         
-      - name: Linting Check
-        run: ruff check . --show-source
+      - name: Run linting
+        run: poetry run ruff check . --show-source
         
-      - name: Type Checking
-        run: mypy src/
+      - name: Run type checking
+        run: poetry run mypy src/
+

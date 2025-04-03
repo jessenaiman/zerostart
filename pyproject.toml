@@ -6,7 +6,7 @@ build-backend = "poetry.core.masonry.api"
 name = "zerostart"
 version = "0.1.0"
 description = "Clean-slate Python project template"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["Jesse Naiman <jessenaiman@gmail.com>"]
 readme = "README.md"
 packages = [{ include = "zerostart", from = "src" }]
 
@@ -14,12 +14,30 @@ packages = [{ include = "zerostart", from = "src" }]
 zerostart = "zerostart.cli:app"
 
 [tool.poetry.dependencies]
-python = "^3.13"
-typer = "^0.12.3"
-
-# Main dependencies will be added by install scripts
-# Group-specific dependencies will go here
+python = ">=3.13"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.2.0"
-ruff = "^0.4.4"
+pytest = "*"
+ruff = "*"
+mypy = "*"
+bandit = "*"
+pre-commit = "*"
+
+[tool.poetry.group.test.dependencies]
+pytest-cov = "*"
+hypothesis = "*"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "*"
+myst-parser = "*"
+sphinx-autobuild = "*"
+
+[tool.poetry.group.game.dependencies]
+arcade = "*"
+pyglet = "*"
+
+[tool.poetry.group.database.dependencies]
+sqlalchemy = "*"
+
+[tool.poetry.group.math.dependencies]
+numpy = "*"

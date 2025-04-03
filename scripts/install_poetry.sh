@@ -6,6 +6,10 @@
 # Usage: ./install_poetry.sh
 set -euo pipefail
 
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+.venv\Scripts\activate     # Windows
+
 # Configure Poetry installation path
 export POETRY_HOME="${POETRY_HOME:-${HOME}/.local/share/poetry}"
 export POETRY_VERSION="1.8.2"

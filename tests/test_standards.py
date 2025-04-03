@@ -31,7 +31,7 @@ def test_ci_requirements():
     """Verify critical CI components"""
     assert Path("pyproject.toml").exists(), "Missing Poetry config"
     assert Path(".github/workflows/ci.yml").exists(), "Missing CI pipeline"
-    assert Path(".pre-commit-config.yaml").exists(), "Missing pre-commit"
+    assert Path(".pre-commit-config.yml").exists(), "Missing pre-commit"
     
 @pytest.fixture
 def example_fixture():
