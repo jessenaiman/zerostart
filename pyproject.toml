@@ -11,13 +11,6 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
 ]
-description = "A Python project starting template with modular setup scripts."
-keywords = ["python", "template", "starter", "project", "setup"]
-license = {file = "LICENSE"}
-name = "zerostart"
-readme = "README.md"
-requires-python = ">=3.13"
-version = "0.1.0"
 
 [project.urls]
 Homepage = "https://github.com/jesseniman/zerostart"
