@@ -1,0 +1,21 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.13'
+    - name: Create virtual environment
+      run: python -m venv .venv
+    - name: Activate virtual environment
+      run: source .venv/bin/activate && echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
+    - name: Run setup
+      run: bash setup_project.sh
+    - name: Run tests
+      run: bash scripts/run_tests.sh
