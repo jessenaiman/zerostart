@@ -1,0 +1,1 @@
+If you need to install only a requirements.txt file for any reason these scripts will not use poetry and stick to the class python package inclusion

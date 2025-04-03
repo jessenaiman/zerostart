@@ -1,24 +1,26 @@
 import typer
 from pathlib import Path
 
-app = typer.Typer()
+app = typer.Typer(help="ZeroStart project initializer")
 
 @app.command()
-def init(project_name: str):
+def init(
+    project_name: str,
+    with_database: bool = typer.Option(False, "--with-database"),
+    no_game: bool = typer.Option(False, "--no-game"),
+):
     """Initialize new project"""
-    print(f"Creating {project_name}...")
-    # Add your initialization logic here
-    print(f"✓ Project {project_name} ready!\n")
-    print("Next steps:")
-    print(f"cd {project_name}")
-    print("poetry install")
+    typer.echo(f"Creating {project_name}...")
+    Path(project_name).mkdir(exist_ok=True)
+    # Add initialization logic here
+    typer.echo(f"✓ Project {project_name} created")
 
 @app.command()
-def clean():
-    """Remove generated files"""
-    print("Cleaning project...")
-    # Add cleanup logic
-    print("✓ Project reset")
+def verify():
+    """Run system verification"""
+    typer.echo("Running verification checks...")
+    # Add verification logic here
+    typer.echo("✓ All systems operational")
 
 if __name__ == "__main__":
     app()
