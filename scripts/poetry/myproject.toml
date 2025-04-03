@@ -1,0 +1,49 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "omega-spiral"
+version = "0.1.0"
+description = "Omega Spiral Project"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+# Main dependencies will be added by install scripts
+# Group-specific dependencies will go here
+
+[tool.poetry.group.dev.dependencies]
+# Development tools will go here
+
+[tool.ruff]
+line-length = 120
+select = [
+    "E",
+    "F",
+    "W",   # Default flake8
+    "I",   # isort
+    "UP",  # pyupgrade
+    "PL",  # pylint
+    "RUF", # ruff-specific
+]
+ignore = []
+target-version = "py313"
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true

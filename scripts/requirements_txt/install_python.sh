@@ -12,5 +12,6 @@ fi
 python --version
 python -m ensurepip --upgrade
 python -m pip install --upgrade pip
+pip install -m pipx
 
 echo "✓ Python 3.13+ installed and pip upgraded"

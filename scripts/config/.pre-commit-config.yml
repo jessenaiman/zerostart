@@ -1,0 +1,29 @@
+[file name]: config/pre-commit/.pre-commit-config.yaml
+[file content begin]
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: check-yaml
+    - id: debug-statements
+
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.1.7
+  hooks:
+    - id: ruff
+      args: [--fix, --show-source]
+
+- repo: https://github.com/psf/black-pre-commit
+  rev: 24.3.0
+  hooks:
+    - id: black
+      args: [--target-version=py313]
+
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.9.0
+  hooks:
+    - id: mypy
+      args: [--strict, --python-version=3.13]
+[file content end]
