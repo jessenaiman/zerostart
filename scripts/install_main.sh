@@ -15,6 +15,8 @@ python -m pip install \
   pydantic \
   ruff \
   mypy \
+  pre-commit \
+  pre-commit-hooks \
   --root-user-action=ignore
 
 # Verify install
@@ -26,3 +28,14 @@ print('✓ mypy installed')
 "
 
 echo "✓ Main application dependencies installed"
+
+# Check if pre-commit is installed
+if ! command -v pre-commit &> /dev/null; then
+    echo "⚠ pre-commit not installed. Run 'bash scripts/install_dev.sh' to install development tools."
+    exit 1
+fi
+
+pre-commit install
+pre-commit run --all-files
+
+echo "✓ Pre-commit hooks installed"

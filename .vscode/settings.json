@@ -9,7 +9,7 @@
     "python.formatting.provider": "black",
     "python.linting.ruffEnabled": true,
     "editor.codeActionsOnSave": {
-        "source.organizeImports": true
+        "source.organizeImports": "explicit"
     },
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
@@ -17,10 +17,4 @@
     "editor.suggest.insertMode": "replace",
     "editor.quickSuggestionsDelay": 100,
     "editor.suggest.showIcons": true
-    "python": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true
-        }
-    }
 }

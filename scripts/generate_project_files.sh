@@ -4,52 +4,6 @@ set -e  # Exit on error
 
 echo "Generating standard project files..."
 
-# Create standard project files
-cat > README.md << 'EOF'
-# ZeroStart
-
-A Python project starting template.
-
-## Setup
-
-1. Create and activate a virtual environment:
-   - `python3.13 -m venv .venv`
-   - `source .venv/Scripts/activate` (Windows) or `source .venv/bin/activate` (Linux/MacOS)
-2. Run `bash setup_project.sh` to set up the project with core dependencies (main, dev, test).
-3. (Optional) Install additional dependencies as needed:
-   - `bash scripts/install_documentation.sh` for documentation tools (Sphinx).
-   - `bash scripts/install_database.sh` for database support (SQLite with SQLAlchemy).
-   - `bash scripts/install_math.sh` for math/physics packages (NumPy).
-   - `bash scripts/install_game.sh` for game development packages (Arcade).
-   - `bash scripts/install_security.sh` for security tools (Bandit).
-4. Run `bash scripts/run_app.sh` to start the application.
-5. Run `bash scripts/run_tests.sh` to execute tests.
-EOF
-
-cat > LICENSE << 'EOF'
-MIT License
-
-Copyright (c) 2025 Jesse Naim
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-EOF
-
 cat > .gitignore << 'EOF'
 # Python
 __pycache__/
@@ -146,6 +100,10 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/jesseniman/zerostart"
 Repository = "https://github.com/jessenaiman/zerostart"
+
+[tool.ruff]
+# Specify the directories or files to check
+target = ["src", "tests"]
 EOF
 
 echo "✓ Standard project files generated"

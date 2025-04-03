@@ -9,7 +9,6 @@ echo "Note: Ensure your virtual environment is activated before running this scr
 SCRIPTS=(
   "install_python.sh"
   "install_main.sh"
-  "install_dev.sh"
   "install_test.sh"
   "install_documentation.sh"
   "install_database.sh"

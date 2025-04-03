@@ -17,5 +17,6 @@ if ! command -v pre-commit &> /dev/null; then
 fi
 
 pre-commit install
+pre-commit run --all-files
 
 echo "✓ Pre-commit hooks installed"
