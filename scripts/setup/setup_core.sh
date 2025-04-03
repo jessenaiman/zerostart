@@ -13,4 +13,3 @@ git init 2>/dev/null || true
 python -m pip install --upgrade pip wheel setuptools
 
 echo "✓ Core project structure created"
-[file content end]

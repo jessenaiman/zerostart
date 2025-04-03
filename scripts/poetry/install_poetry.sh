@@ -18,4 +18,3 @@ poetry install --no-root
 poetry export -f requirements.txt -o requirements.txt --without-hashes
 
 echo "✓ Poetry installation completed"
-[file content end]

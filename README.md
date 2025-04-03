@@ -1,61 +1,78 @@
-# ⚡ zerostart: The Clean-Slate Python Template
+# 🚀 zerostart: Modern Python Foundation
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![PyPI Version](https://img.shields.io/pypi/v/zerostart)](https://pypi.org/project/zerostart/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/your-repo/zerostart/blob/main/CONTRIBUTING.md)
+[![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
+[![Poetry](https://img.shields.io/badge/packaging-poetry-cyan.svg)](https://python-poetry.org/)
 
-**zerostart** is a no-legacy Python template that lets you **start fresh** and **add only what you need**.
-Perfect for prototypes, packages, or experiments—without the boilerplate tax.
+**Start clean. Stay modular. Scale right.**  
+A batteries-removed template for serious Python projects.
+
+## ▶️ Instant Start
+
+```bash
+# Clone & setup (Unix/WSL)
+git clone https://github.com/your-repo/zerostart
+cd zerostart
+bash zerostart-init.sh
 
 ### Project Structure
 
-omega_spiral/
-├── scripts/
-│   ├── install_python.sh
-│   ├── install_main.sh
-│   ├── install_dev.sh
-│   ├── install_test.sh
-│   ├── install_documentation.sh
-│   ├── install_database.sh
-│   ├── install_math.sh
-│   ├── install_game.sh
-│   ├── install_security.sh
-│   ├── generate_project_files.sh
-│   ├── generate_source.sh
-│   ├── generate_tests.sh
-│   ├── verify_imports.sh
-│   ├── verify_structure.sh
-│   ├── verify_install.sh
-│   ├── setup_precommit.sh
-│   ├── run_app.sh
-│   ├── run_tests.sh
-├── setup_project.sh
+zerostart/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml
-├── .gitignore
-├── .pre-commit-config.yaml
-├── LICENSE
-├── README.md
+├── .vscode/
+│   └── settings.json
+├── config/
+│   ├── pre-commit/
+│   │   └── .pre-commit-config.yaml
+│   ├── ruff/
+│   │   └── ruff.toml
+│   └── vscode/
+│       └── settings.json
+├── scripts/
+│   ├── poetry/
+│   │   ├── install_poetry.sh
+│   │   ├── poetry-init.sh
+│   │   └── generate_ruff_config.sh
+│   ├── requirements_txt/
+│   │   └── generate_requirements.py
+│   ├── setup/
+│   │   ├── copy_configs.sh
+│   │   └── setup_core.sh
+│   ├── install_main.sh
+│   ├── install_game.sh
+│   ├── run_app.sh
+│   └── run_tests.sh
 ├── src/
-│   └── omega_project/
-│       ├── **init**.py
-│       ├── main.py
-│       └── shared/
-│           ├── **init**.py
-│           └── types.py
+│   └── main.py
 ├── tests/
-│   ├── **init**.py
-│   ├── integration/
-│   └── unit/
-│       └── test_main.py
-└── .venv/
+│   └── test_main.py
+├── .gitignore
+├── LICENSE
+├── pyproject.toml
+├── README.md
+└── zerostart-init.sh
 
 ```bash
 # Install and run (from anywhere):
 python -m pip install zerostart
 zerostart-init my_project  # Creates new project dir
 ```
+
+### What am I looking at?
+
+Starting new projects is messy, and confusing. What you see is everything you will eventually need if you are developing a project. It doesn't matter if you're AAA or just a code tinkerer, you should value your time and effort by securing it so when it works you have it saved and locked so you can show that work off.
+
+Stop dissapointing yourself and friends by having unexpected errors. 
+
+Some of these might seem trivial at first, but 10 years later you'll thank yourself for doing the following:
+
+1. Github save point. Nerds call it check in, and push, but if you think of this as a save point, it's technically the same thing.
+2. Unit Testing, because isn't it nice when you know 100% if your stuff works?
+3. Continuous Integration; look for the green checkmark on github to confirm that your project actually will run on multiple devices.
+4. Remembering years from now that you can program, and you not only have the project you forked, but you have this repo to return to ready to help you spend zero time getting to the starting line of your code.
+
+Here's what you do next
 
 ---
 

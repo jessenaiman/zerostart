@@ -1,35 +1,25 @@
 [build-system]
-build-backend = "setuptools.build_meta"
-requires = ["setuptools>=61.0", "wheel"]
-
-[project]
-authors = [{name = "Jesse Naiman", email = "your.email@example.com"}]
-classifiers = [
-  "Programming Language :: Python :: 3",
-  "Operating System :: OS Independent",
-] # Removed deprecated license classifier
-dependencies = []
-description = "A Python project starting template with modular setup scripts."
-keywords = ["python", "template", "starter", "project", "setup"]
-license = "MIT" # Updated to use SPDX license expression
-name = "chapter_zero"
-readme = "README.md"
-requires-python = ">=3.13"
-version = "0.1.0"
-
-[project.urls]
-Homepage = "https://github.com/jesseniman/zerostart"
-Repository = "https://github.com/jessenaiman/zerostart"
-
-[tool.ruff]
-target = ["src", "tests"]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-# Removed duplicate fields already defined in [project]
-packages = [
-  {include = "omega_project", from = "src"},
-]
+name = "zerostart"
+version = "0.1.0"
+description = "Clean-slate Python project template"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{ include = "zerostart", from = "src" }]
+
+[tool.poetry.scripts]
+zerostart = "zerostart.cli:app"
 
 [tool.poetry.dependencies]
+python = "^3.13"
+typer = "^0.12.3"
 
-[tool.poetry.dev-dependencies]
+# Main dependencies will be added by install scripts
+# Group-specific dependencies will go here
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+ruff = "^0.4.4"
