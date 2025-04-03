@@ -3,19 +3,33 @@ build-backend = "setuptools.build_meta"
 requires = ["setuptools>=61.0", "wheel"]
 
 [project]
-authors = [
-  {name = "Jesse Naim", email = "your.email@example.com"},
-]
+authors = [{name = "Jesse Naiman", email = "your.email@example.com"}]
 classifiers = [
   "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
-]
+] # Removed deprecated license classifier
+dependencies = []
+description = "A Python project starting template with modular setup scripts."
+keywords = ["python", "template", "starter", "project", "setup"]
+license = "MIT" # Updated to use SPDX license expression
+name = "chapter_zero"
+readme = "README.md"
+requires-python = ">=3.13"
+version = "0.1.0"
 
 [project.urls]
 Homepage = "https://github.com/jesseniman/zerostart"
 Repository = "https://github.com/jessenaiman/zerostart"
 
 [tool.ruff]
-# Specify the directories or files to check
 target = ["src", "tests"]
+
+[tool.poetry]
+# Removed duplicate fields already defined in [project]
+packages = [
+  {include = "omega_project", from = "src"},
+]
+
+[tool.poetry.dependencies]
+
+[tool.poetry.dev-dependencies]

@@ -74,36 +74,4 @@ repos:
   - id: ruff-format
 EOF
 
-# Create pyproject.toml for PyPI packaging
-cat > pyproject.toml << 'EOF'
-[build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "zerostart"
-version = "0.1.0"
-authors = [
-  { name="Jesse Naim", email="your.email@example.com" },
-]
-description = "A Python project starting template with modular setup scripts."
-readme = "README.md"
-requires-python = ">=3.13"
-license = { file="LICENSE" }
-keywords = ["python", "template", "starter", "project", "setup"]
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-]
-
-[project.urls]
-Homepage = "https://github.com/jesseniman/zerostart"
-Repository = "https://github.com/jessenaiman/zerostart"
-
-[tool.ruff]
-# Specify the directories or files to check
-target = ["src", "tests"]
-EOF
-
 echo "✓ Standard project files generated"
