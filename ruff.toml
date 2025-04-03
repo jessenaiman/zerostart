@@ -4,22 +4,20 @@ target-version = "py313"
 [lint]
 ignore = []
 select = [
-  "E", # pycodestyle errors
-  "W", # pycodestyle warnings
-  "F", # pyflakes
-  "I", # isort
-  "N", # pep8-naming
-  "UP", # pyupgrade
-  "PL", # pylint
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "N",   # pep8-naming
+  "UP",  # pyupgrade
+  "PL",  # pylint
   "RUF", # ruff-specific
-  "B", # flake8-bugbear
+  "B",   # flake8-bugbear
   "T20", # flake8-print
-  "PD", # pandas-vet
+  "PD",  # pandas-vet
 ]
 [format]
 indent-style = "space"
 line-ending = "auto"
 quote-style = "double"
 skip-magic-trailing-comma = false
-[lint.pydocstyle]
-convention = "google"
