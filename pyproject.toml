@@ -1,43 +1,87 @@
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
+pyproject_toml = "ZeroStart"
 [tool.poetry]
-name = "zerostart"
-version = "0.1.0"
-description = "Clean-slate Python project template"
 authors = ["Jesse Naiman <jessenaiman@gmail.com>"]
+description = "A professional Python game template"
+license = "MIT"
+name = "zerostart"
+packages = [{include = "src"}]
 readme = "README.md"
-packages = [{ include = "zerostart", from = "src" }]
-
-[tool.poetry.scripts]
-zerostart = "zerostart.cli:app"
+repository = "https://github.com/jessenaiman/zerostart"
+version = "0.1.0"
 
 [tool.poetry.dependencies]
-python = ">=3.13"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "*"
-ruff = "*"
-mypy = "*"
-bandit = "*"
-pre-commit = "*"
-
-[tool.poetry.group.test.dependencies]
-pytest-cov = "*"
-hypothesis = "*"
-
-[tool.poetry.group.docs.dependencies]
-sphinx = "*"
-myst-parser = "*"
-sphinx-autobuild = "*"
-
-[tool.poetry.group.game.dependencies]
+alive-progress = "*"
 arcade = "*"
+asciimatics = "*"
+loguru = "*"
+numpy = "*"
+orjson = "*"
+pydantic = "*"
 pyglet = "*"
-
-[tool.poetry.group.database.dependencies]
+python = "*"
+rich = "*"
 sqlalchemy = "*"
 
-[tool.poetry.group.math.dependencies]
-numpy = "*"
+[tool.poetry.group.dev.dependencies]
+black = "^24.1.1"
+debugpy = "^1.8.0"
+flake8 = "^7.0.0"
+flake8-docstrings = "^1.7.0"
+green = "^3.4.9"
+ipdb = "^0.13.13"
+isort = "^5.13.2"
+mypy = "^1.8.0"
+pre-commit = "^3.6.0"
+
+[tool.poetry.group.test.dependencies]
+hypothesis = "^6.92.1"
+pytest = "^8.0.0"
+pytest-cov = "^4.1.0"
+
+[tool.poetry.group.docs.dependencies]
+myst-parser = "^2.0.0"
+sphinx = "^7.2.6"
+sphinx-autobuild = "^2021.3.14"
+sphinx-autodoc-typehints = "^1.25.2"
+sphinx-copybutton = "^0.5.2"
+sphinx-rtd-theme = "^1.3.0"
+
+[tool.poetry.scripts]
+docs = "sphinx-build docs docs/_build/html"
+start = "src.main:main"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+
+[tool.black]
+include = '\.pyi?$'
+line-length = 88
+target-version = ['py39']
+
+[tool.isort]
+line_length = 88
+profile = "black"
+
+[tool.mypy]
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+python_files = "test_*.py"
+python_functions = "test_*"
+testpaths = ["tests"]
+
+[tool.interrogate]
+fail-under = 80
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = false
+ignore-module = false
+ignore-nested-classes = false
+ignore-nested-functions = false
+ignore-private = false
+ignore-semiprivate = false
