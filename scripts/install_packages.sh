@@ -31,8 +31,8 @@ attempt() {
 # --- Core Installation Sequence ---
 {
     # 1. Python Version Check
-    attempt "Verifying Python 3.9+"
-    python3 --version || fail "Python 3.9+ required"
+    attempt "Verifying Python 3.13.2+"
+    python3 --version || fail "Python 3.13.2+ required"
 
     # 2. Poetry Installation
     attempt "Checking for Poetry"
@@ -46,7 +46,7 @@ attempt() {
 
     # 3. Project Initialization
     attempt "Checking project configuration"
-    [ ! -f pyproject.toml ] && poetry init -n --python="^3.9"
+    [ ! -f pyproject.toml ] && poetry init -n --python="^3.13.2"
     
     # --- Package Installation ---
     # Each group gets explicit visibility and no version locking
@@ -113,16 +113,16 @@ attempt() {
     # Setup Black configuration
     cat > pyproject.toml << EOF
 [tool.black]
-line-length = 88
-target-version = ['py39']
+line-length = 120
+target-version = ['py313']
 include = '\.pyi?$'
 
 [tool.isort]
 profile = "black"
-line_length = 88
+line_length = 120
 
 [tool.mypy]
-python_version = "3.9"
+python_version = ">=3.13.2"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true

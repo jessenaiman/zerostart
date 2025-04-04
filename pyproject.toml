@@ -1,87 +1,36 @@
-pyproject_toml = "ZeroStart"
-[tool.poetry]
-authors = ["Jesse Naiman <jessenaiman@gmail.com>"]
-description = "A professional Python game template"
-license = "MIT"
+[project]
 name = "zerostart"
-packages = [{include = "src"}]
-readme = "README.md"
-repository = "https://github.com/jessenaiman/zerostart"
 version = "0.1.0"
+description = ""
+authors = [
+    {name = "Jesse Naiman",email = "jessenaiman@gmail.com"}
+]
+readme = "README.md"
+requires-python = "^3.9"
+dependencies = [
+]
 
-[tool.poetry.dependencies]
-alive-progress = "*"
-arcade = "*"
-asciimatics = "*"
-loguru = "*"
-numpy = "*"
-orjson = "*"
-pydantic = "*"
-pyglet = "*"
-python = "*"
-rich = "*"
-sqlalchemy = "*"
-
-[tool.poetry.group.dev.dependencies]
-black = "^24.1.1"
-debugpy = "^1.8.0"
-flake8 = "^7.0.0"
-flake8-docstrings = "^1.7.0"
-green = "^3.4.9"
-ipdb = "^0.13.13"
-isort = "^5.13.2"
-mypy = "^1.8.0"
-pre-commit = "^3.6.0"
-
-[tool.poetry.group.test.dependencies]
-hypothesis = "^6.92.1"
-pytest = "^8.0.0"
-pytest-cov = "^4.1.0"
-
-[tool.poetry.group.docs.dependencies]
-myst-parser = "^2.0.0"
-sphinx = "^7.2.6"
-sphinx-autobuild = "^2021.3.14"
-sphinx-autodoc-typehints = "^1.25.2"
-sphinx-copybutton = "^0.5.2"
-sphinx-rtd-theme = "^1.3.0"
-
-[tool.poetry.scripts]
-docs = "sphinx-build docs docs/_build/html"
-start = "src.main:main"
 
 [build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.0.0"]
 
-[tool.black]
-include = '\.pyi?$'
-line-length = 88
-target-version = ['py39']
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.3"
+mypy = "^1.15.0"
+black = "^25.1.0"
+isort = "^6.0.1"
+flake8 = "^7.2.0"
+flake8-docstrings = "^1.7.0"
+pre-commit = "^4.2.0"
+ipdb = "^0.13.13"
+debugpy = "^1.8.13"
+rich = "^14.0.0"
+loguru = "^0.7.3"
 
-[tool.isort]
-line_length = 88
-profile = "black"
 
-[tool.mypy]
-disallow_incomplete_defs = true
-disallow_untyped_defs = true
-python_version = "3.9"
-warn_return_any = true
-warn_unused_configs = true
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.1.0"
+hypothesis = "^6.130.8"
 
-[tool.pytest.ini_options]
-python_files = "test_*.py"
-python_functions = "test_*"
-testpaths = ["tests"]
-
-[tool.interrogate]
-fail-under = 80
-ignore-init-method = true
-ignore-init-module = true
-ignore-magic = false
-ignore-module = false
-ignore-nested-classes = false
-ignore-nested-functions = false
-ignore-private = false
-ignore-semiprivate = false

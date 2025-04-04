@@ -32,6 +32,7 @@ activate_venv() {
         source .venv/bin/activate
     elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
         source .venv/Scripts/activate
+        .venv\Scripts\activate  
     else
         echo -e "${RED}${CROSS} Unsupported OS for auto-activation${NC}"
         echo "Please activate manually:"
