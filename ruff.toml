@@ -1,0 +1,28 @@
+# This is handled by ruff at [ruff.toml]
+# Ruff is a fast linter and formatter for Python, replacing tools like flake8, isort, and pylint.
+# See https://docs.astral.sh/ruff/ for full documentation.
+
+[lint]
+# Enable rules that align with the project's style.
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "D",  # pydocstyle
+    "B",  # flake8-bugbear
+]
+ignore = [
+    "D203",  # Conflicts with D211 (class docstring style)
+    "D213",  # Conflicts with D212 (multi-line docstring summary)
+]
+
+[format]
+# Align with black's formatting style.
+line-length = 88
+indent-style = "space"
+indent-width = 4
+
+[lint.pydocstyle]
+# Use Google-style docstrings, consistent with the project's setup.
+convention = "google"

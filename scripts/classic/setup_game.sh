@@ -20,29 +20,6 @@ function show_header() {
     echo -e "${NC}"
 }
 
-activate_venv() {
-    echo -e "\n${YELLOW}${ARROW} Activating virtual environment${NC}"
-    if [ ! -d ".venv" ]; then
-        echo -e "${RED}${CROSS} Virtual environment not found. Run zerostart.sh first${NC}"
-        exit 1
-    fi
-    
-    # Platform-specific activation
-    if [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "darwin"* ]]; then
-        source .venv/bin/activate
-    elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
-        source .venv/Scripts/activate
-        .venv\Scripts\activate  
-    else
-        echo -e "${RED}${CROSS} Unsupported OS for auto-activation${NC}"
-        echo "Please activate manually:"
-        echo "  Linux/Mac: source .venv/bin/activate"
-        echo "  Windows: .venv\\Scripts\\activate"
-        exit 1
-    fi
-    echo -e "${GREEN}${CHECK} Virtual environment activated${NC}"
-}
-
 install_game_packages() {
     echo -e "\n${YELLOW}${ARROW} Installing game development packages${NC}"
     
@@ -975,7 +952,6 @@ print('pyproject.toml updated with game script')
 
 # --- Main Execution ---
 show_header
-activate_venv
 install_game_packages
 create_game_structure
 create_game_engine

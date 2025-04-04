@@ -3,28 +3,8 @@
 # This script runs ALL necessary setup tasks in the correct order
 set -euo pipefail
 
-# Colors and Symbols
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-ARROW="➜"; CHECK="✓"; CROSS="❌"; WARNING="⚠️"
-
-function show_header() {
-    clear
-    echo -e "${CYAN}"
-    echo "███████╗███████╗██████╗  ██████╗ ███████╗████████╗ █████╗ ██████╗ ████████╗"
-    echo "╚══███╔╝██╔════╝██╔══██╗██╔═══██╗██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝"
-    echo "  ███╔╝ █████╗  ██████╔╝██║   ██║███████╗   ██║   ███████║██████╔╝   ██║   "
-    echo " ███╔╝  ██╔══╝  ██╔══██╗██║   ██║╚════██║   ██║   ██╔══██║██╔══██╗   ██║   "
-    echo "███████╗███████╗██║  ██║╚██████╔╝███████║   ██║   ██║  ██║██║  ██║   ██║   "
-    echo "╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   "
-    echo -e "${NC}"
-    echo -e "${GREEN}One-Command Python Project Initialization${NC}"
-    echo
-}
-
+# Source terminal UI styling definitions
+source scripts/terminal_ui.sh
 
 # Function to check if a virtual environment is active
 check_venv() {
@@ -40,18 +20,17 @@ check_venv() {
     fi
 }
 
-function handle_common_errors() {
+# Handle common errors during execution
+handle_common_errors() {
     local error_output="$1"
     local step_name="$2"
     
-    # Poetry initialization error
     if echo "$error_output" | grep -q "pyproject.toml file with a project and/or a poetry section already exists"; then
         echo -e "\n${YELLOW}${WARNING} Poetry project already exists${NC}"
         echo -e "${GREEN}${CHECK} This is fine, continuing with existing pyproject.toml${NC}"
-        return 0  # Return success to continue
+        return 0
     fi
     
-    # Python version error
     if echo "$error_output" | grep -q "Python 3.13"; then
         echo -e "\n${YELLOW}${WARNING} Resolution Guide:${NC}"
         echo -e "1. Python 3.13 is required but not available"
@@ -63,7 +42,6 @@ function handle_common_errors() {
         return 1
     fi
     
-    # Generic package installation error
     if echo "$error_output" | grep -q "Failed to install"; then
         echo -e "\n${YELLOW}${WARNING} Resolution Guide:${NC}"
         echo -e "1. Package installation failed"
@@ -72,10 +50,10 @@ function handle_common_errors() {
         return 1
     fi
     
-    return 1  # Unrecognized error
+    return 1
 }
 
-# Enhanced run_step with better error handling
+# Run a step with error handling
 run_step() {
     local step_num=$1
     local step_name=$2
@@ -90,12 +68,10 @@ run_step() {
         echo -e "\n${RED}${CROSS} Issue at step ${step_num} (${step_name})${NC}"
         echo -e "Output:\n${output}\n"
         
-        # Try to handle common errors
         if handle_common_errors "$output" "$step_name"; then
             echo -e "${YELLOW}${WARNING} Continuing despite issue${NC}"
             return 0
         else
-            # If this is an optional step, we can continue
             if [ "$optional" = true ]; then
                 echo -e "${YELLOW}${WARNING} Optional step failed, continuing anyway${NC}"
                 return 0
@@ -107,6 +83,7 @@ run_step() {
     fi
 }
 
+# Set up script permissions
 setup_permissions() {
     echo -e "\n${YELLOW}${ARROW} Setting script permissions${NC}"
     chmod +x scripts/*.sh 2>/dev/null || true
@@ -114,17 +91,17 @@ setup_permissions() {
     echo -e "${GREEN}${CHECK} All scripts made executable${NC}"
 }
 
+# Install Poetry if not already installed
 install_poetry() {
     echo -e "\n${YELLOW}${ARROW} Checking for Poetry${NC}"
     if ! command -v poetry &>/dev/null; then
         echo -e "${CYAN}Installing Poetry...${NC}"
         pipx install poetry
-        export PATH="$HOME/.local/bin:$PATH"  # Add poetry to path
+        export PATH="$HOME/.local/bin:$PATH"
     else
         echo -e "${GREEN}${CHECK} Poetry already installed${NC}"
     fi
     
-    # Verify poetry works
     poetry --version || {
         echo -e "${RED}${CROSS} Poetry installation issue. Adding to PATH...${NC}"
         export PATH="$HOME/.local/bin:$PATH"
@@ -136,113 +113,45 @@ install_poetry() {
     }
 }
 
-# Modify install_package_group() to show more details
-install_package_group() {
-    local group="$1"; shift
-    echo -e "\n${CYAN}⚙️ ${YELLOW}Installing $group Dependencies:${NC}"
-    echo -e "${GREEN}┌────────────────────────────────────┐${NC}"
-    printf "${GREEN}│%-34s│${NC}\n" "  📦 Packages:"
-    for pkg in "$@"; do
-        printf "${GREEN}│ ${CYAN}• %-30s ${GREEN}│${NC}\n" "$pkg"
-    done
-    echo -e "${GREEN}└────────────────────────────────────┘${NC}"
-    
-    # Install all packages at once
-    if [ -n "$*" ]; then
-        run_step "$group packages" "Adding $group packages" "poetry add --group $group $*" true
+# Initialize Poetry project, using an existing pyproject.toml if available
+initialize_poetry_project() {
+    echo -e "\n${YELLOW}${ARROW} Initializing Poetry project${NC}"
+    if [ -f "pyproject.toml" ]; then
+        echo -e "${GREEN}${CHECK} Using existing pyproject.toml${NC}"
+    else
+        poetry init -n --python='^3.13.2' || {
+            echo -e "${RED}${CROSS} Failed to initialize Poetry project${NC}"
+            exit 1
+        }
+        echo -e "${GREEN}${CHECK} Poetry project initialized${NC}"
     fi
 }
 
-
-# In zerostart.sh, replace create_sphinx_docs() with:
+# Set up documentation using install_sphinx.sh
 setup_documentation() {
     echo -e "\n${YELLOW}${ARROW} Setting Up Professional Documentation${NC}"
     if [ -f "scripts/install_sphinx.sh" ]; then
         ./scripts/install_sphinx.sh
     else
-        echo -e "${RED}${CROSS} Documentation script not found!${NC}"
-        echo -e "Get it from: https://example.com/install_sphinx.sh"
+        echo -e "${RED}${CROSS} Documentation script (install_sphinx.sh) not found!${NC}"
+        echo -e "Please ensure all scripts are present in the repository. You may need to re-clone the project."
+        exit 1
     fi
 }
 
-run_tests() {
-    echo -e "\n${YELLOW}${ARROW} Running tests${NC}"
-    poetry run pytest -v || {
-        echo -e "${YELLOW}${WARNING} Tests failed, but continuing setup${NC}"
-    }
-}
-
-run_sample_app() {
-    echo -e "\n${YELLOW}${ARROW} Running sample application${NC}"
-    poetry run python -m src.main || {
-        echo -e "${YELLOW}${WARNING} Sample app failed, but continuing setup${NC}"
-    }
-}
-
-setup_documentation() {
-    echo -e "\n${YELLOW}${ARROW} Setting Up Professional Documentation${NC}"
-    if [ -f "scripts/install_sphinx.sh" ]; then
-        ./scripts/install_sphinx.sh
+# Install dependencies using install_packages.sh
+install_dependencies() {
+    echo -e "\n${CYAN}=== Installing Dependencies ===${NC}"
+    if [ -f "scripts/install_packages.sh" ]; then
+        ./scripts/install_packages.sh
     else
-        echo -e "${RED}${CROSS} Documentation script not found!${NC}"
-        echo -e "Get it from: https://example.com/install_sphinx.sh"
+        echo -e "${RED}${CROSS} Package installation script (install_packages.sh) not found!${NC}"
+        echo -e "Please ensure all scripts are present in the repository. You may need to re-clone the project."
+        exit 1
     fi
 }
 
-def setup_coverage_check() -> None:
-    """Set up docstring coverage checking with interrogate."""
-    try:
-        import subprocess
-        
-        # Check if interrogate is installed
-        try:
-            subprocess.run(['interrogate', '--version'], check=True, capture_output=True)
-            print(f"{GREEN}{CHECK} interrogate is already installed{NC}")
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            print(f"{YELLOW}Installing interrogate...{NC}")
-            subprocess.run(['pip', 'install', 'interrogate'], check=True)
-            print(f"{GREEN}{CHECK} interrogate installed successfully{NC}")
-        
-        # Create interrogate configuration
-        pyproject_path = Path('pyproject.toml')
-        if pyproject_path.exists():
-            with open(pyproject_path, 'r') as f:
-                content = f.read()
-            
-            if '[tool.interrogate]' not in content:
-                with open(pyproject_path, 'a') as f:
-                    f.write('\n[tool.interrogate]\n')
-                    f.write('ignore-init-method = true\n')
-                    f.write('ignore-init-module = true\n')
-                    f.write('ignore-magic = false\n')
-                    f.write('ignore-semiprivate = false\n')
-                    f.write('ignore-private = false\n')
-                    f.write('ignore-module = false\n')
-                    f.write('ignore-nested-functions = false\n')
-                    f.write('ignore-nested-classes = false\n')
-                    f.write('fail-under = 80\n')  # 80% coverage required
-                print(f"{GREEN}{CHECK} Added interrogate configuration to pyproject.toml{NC}")
-        else:
-            with open(pyproject_path, 'w') as f:
-                f.write('[tool.interrogate]\n')
-                f.write('ignore-init-method = true\n')
-                f.write('ignore-init-module = true\n')
-                f.write('ignore-magic = false\n')
-                f.write('ignore-semiprivate = false\n')
-                f.write('ignore-private = false\n')
-                f.write('ignore-module = false\n')
-                f.write('ignore-nested-functions = false\n')
-                f.write('ignore-nested-classes = false\n')
-                f.write('fail-under = 80\n')  # 80% coverage required
-            print(f"{GREEN}{CHECK} Created pyproject.toml with interrogate configuration{NC}")
-        
-        print(f"{GREEN}{CHECK} Docstring coverage check setup complete{NC}")
-        print(f"{YELLOW}Run 'interrogate src/' to check docstring coverage{NC}")
-        
-    except Exception as e:
-        print(f"{RED}{CROSS} Error setting up coverage check: {e}{NC}")
-
-# Added package verification step
+# Verify installed packages
 verify_packages() {
     echo -e "\n${CYAN}🔍 Verifying Installed Packages${NC}"
     poetry show --tree || {
@@ -250,10 +159,63 @@ verify_packages() {
     }
 }
 
+# Update pyproject.toml with scripts
+update_pyproject_scripts() {
+    echo -e "\n${YELLOW}${ARROW} Updating pyproject.toml with scripts${NC}"
+    poetry run python -c "
+import toml
+
+# Read existing pyproject.toml
+with open('pyproject.toml', 'r') as f:
+    pyproject = toml.load(f)
+
+# Ensure tool and poetry sections exist
+if 'tool' not in pyproject:
+    pyproject['tool'] = {}
+if 'poetry' not in pyproject['tool']:
+    pyproject['tool']['poetry'] = {}
+if 'scripts' not in pyproject['tool']['poetry']:
+    pyproject['tool']['poetry']['scripts'] = {}
+
+# Add scripts
+scripts = pyproject['tool']['poetry']['scripts']
+scripts['format'] = 'black .'
+scripts['lint'] = 'ruff check .'
+scripts['typecheck'] = 'mypy .'
+scripts['docs:build'] = 'sphinx-build -b html docs docs/_build/html'
+scripts['docs:clean'] = 'rm -rf docs/_build'
+scripts['docs:serve'] = 'python -m http.server -d docs/_build/html'
+
+# Write updated pyproject.toml
+with open('pyproject.toml', 'w') as f:
+    toml.dump(pyproject, f)
+
+print('Scripts added to pyproject.toml')
+"
+    echo -e "${GREEN}${CHECK} Scripts added to pyproject.toml${NC}"
+}
+
+# Run all checks and start the app as the final step
+run_tests_and_start_app() {
+    echo -e "\n${CYAN}=== Running All Checks and Starting Application ===${NC}"
+    if [ -f "scripts/run_all_checks.sh" ]; then
+        ./scripts/run_all_checks.sh
+    else
+        echo -e "${RED}${CROSS} Check script (run_all_checks.sh) not found!${NC}"
+        echo -e "Please ensure all scripts are present in the repository. You may need to re-clone the project."
+        exit 1
+    fi
+
+    echo -e "\n${YELLOW}${ARROW} Starting application${NC}"
+    poetry run python -m src.main || {
+        echo -e "${RED}${CROSS} Failed to start application${NC}"
+        exit 1
+    }
+    echo -e "${GREEN}${CHECK} Application started successfully${NC}"
+}
+
 # --- Main Execution ---
 show_header
-
-# Check if the virtual environment is active
 check_venv
 
 # Pre-setup verification
@@ -262,76 +224,14 @@ run_step "0.2" "Install Poetry" "install_poetry"
 
 # Installation Steps
 run_step "1" "Create project structure" "mkdir -p src tests docs data"
-
-# Initialize Poetry project (if not already done)
-run_step "2" "Initialize Poetry project" "poetry init -n --python='^3.13.2'" true
-
-# Install dependencies by category
-echo -e "\n${CYAN}=== Installing Dependencies ===${NC}"
-
-# Core dependencies
-install_package_group "core" "/
-    pydantic /
-    tomli /"
-
-install_package_group "dev" "/
-    mypy /
-    black /
-    isort / 
-    flake8 / 
-    flake8-docstrings / 
-    pre-commit /
-    ipdb /
-    debugpy"
-
-install_package_group "test" "/
-    pytest /
-    pylint /
-    pytest-cov /
-    hypothesis / 
-    pytest-mock / 
-    pytest-benchmark / 
-    hypothesis / 
-    green"
-
-# Documentation Setup
-echo -e "\n${CYAN}=== Professional Documentation Setup ===${NC}"
-run_step "3.1" "Setup Documentation" "setup_documentation"
-
-# Optional category-specific dependencies
-echo -e "\n${CYAN}=== Installing Optional Category-Specific Dependencies ===${NC}"
-echo -e "${YELLOW}You can add your specific dependencies for each category${NC}"
-
-install_package_group "dev" "/
-    rich 
-    loguru"  # General purpose utilities
-install_package_group "web" "/
-    fastapi /
-    uvicorn /
-    jinja2" true  # Web development
-#nstall_package_group "data" "pandas numpy matplotlib seaborn" true  # Data science
-install_package_group "game" "/
-    arcade /
-    pygame /
-    alive-progress /
-    curses /
-    pyglet" true  # Game development
-install_package_group "db" "/
-    sqlalchemy /
-     /
-    " true  # Database
-
-# Setup project components
-echo -e "\n${CYAN}=== Setting Up Project Components ===${NC}"
-run_step "3.3" "Update pyproject.toml with scripts" "update_pyproject"
-
-# Verification steps
-echo -e "\n${CYAN}=== Verifying Installation ===${NC}"
-run_step "4.1" "Run tests" "run_tests" true
-run_step "4.2" "Run sample application" "run_sample_app" true
-
-# Added to main execution flow
+run_step "2" "Initialize Poetry project" "initialize_poetry_project" true
+run_step "3" "Install dependencies" "install_dependencies"
+run_step "4" "Setup Documentation" "setup_documentation"
 run_step "5" "Verify Installed Packages" "verify_packages"
+run_step "6" "Update pyproject.toml with scripts" "update_pyproject_scripts"
+
+# Final step: Run all checks and start the app
+run_tests_and_start_app
 
 # --- Final Output ---
 echo -e "\n${GREEN}${CHECK} ZeroStart Initialization Complete!${NC}"
@@ -347,9 +247,5 @@ ${YELLOW}💡 Pro Tip:${NC} Use these quality-of-life commands:
    ${CYAN}poetry run lint${NC}     - Check code quality
    ${CYAN}poetry run typecheck${NC} - Verify type annotations
 
-${MAGENTA}✨ Happy Coding! ✨${NC}
+${CYAN}✨ Happy Coding! ✨${NC}
 EOF
-
-[project]
-name = "zerostart"
-version = "0.1.0"
