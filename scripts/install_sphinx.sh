@@ -380,8 +380,8 @@ echo -e "${GREEN}${CHECK} Documentation Makefile created${NC}"
 
 # Set up docstring enforcement with interrogate
 echo -e "${YELLOW}${ARROW} Setting up docstring enforcement with interrogate${NC}"
-if ! poetry add --group dev interrogate > /dev/null 2>&1; then
-    echo -e "${RED}${CROSS} Failed to install interrogate${NC}"
+if ! poetry add --group dev interrogate; then
+    echo -e "${RED}${CROSS} Failed to install interrogate. Please review the error above.${NC}"
     exit 1
 fi
 if ! poetry run python -c "
@@ -413,8 +413,8 @@ with open('pyproject.toml', 'w') as f:
     toml.dump(pyproject, f)
 
 print('Interrogate configuration added to pyproject.toml')
-" > /dev/null 2>&1; then
-    echo -e "${RED}${CROSS} Failed to configure interrogate in pyproject.toml${NC}"
+"; then
+    echo -e "${RED}${CROSS} Failed to configure interrogate in pyproject.toml. Please review the error above.${NC}"
     exit 1
 fi
 echo -e "${GREEN}${CHECK} Docstring enforcement setup complete${NC}"

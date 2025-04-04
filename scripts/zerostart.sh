@@ -113,17 +113,19 @@ install_poetry() {
     }
 }
 
-# Initialize Poetry project, using an existing pyproject.toml if available
+# Initialize Poetry project, using pyproject.toml.bak if no pyproject.toml exists
 initialize_poetry_project() {
     echo -e "\n${YELLOW}${ARROW} Initializing Poetry project${NC}"
     if [ -f "pyproject.toml" ]; then
         echo -e "${GREEN}${CHECK} Using existing pyproject.toml${NC}"
     else
-        poetry init -n --python='^3.13.2' || {
-            echo -e "${RED}${CROSS} Failed to initialize Poetry project${NC}"
+        if [ -f "pyproject.toml.bak" ]; then
+            cp pyproject.toml.bak pyproject.toml
+            echo -e "${GREEN}${CHECK} Copied pyproject.toml.bak to pyproject.toml${NC}"
+        else
+            echo -e "${RED}${CROSS} pyproject.toml.bak not found!${NC}"
             exit 1
-        }
-        echo -e "${GREEN}${CHECK} Poetry project initialized${NC}"
+        fi
     fi
 }
 
@@ -195,9 +197,9 @@ print('Scripts added to pyproject.toml')
     echo -e "${GREEN}${CHECK} Scripts added to pyproject.toml${NC}"
 }
 
-# Run all checks and start the app as the final step
+# Run all checks and instruct the user to run tests
 run_tests_and_start_app() {
-    echo -e "\n${CYAN}=== Running All Checks and Starting Application ===${NC}"
+    echo -e "\n${CYAN}=== Running All Checks ===${NC}"
     if [ -f "scripts/run_all_checks.sh" ]; then
         ./scripts/run_all_checks.sh
     else
@@ -230,7 +232,7 @@ run_step "4" "Setup Documentation" "setup_documentation"
 run_step "5" "Verify Installed Packages" "verify_packages"
 run_step "6" "Update pyproject.toml with scripts" "update_pyproject_scripts"
 
-# Final step: Run all checks and start the app
+# Final step: Run all checks and instruct the user to run tests
 run_tests_and_start_app
 
 # --- Final Output ---
@@ -238,9 +240,10 @@ echo -e "\n${GREEN}${CHECK} ZeroStart Initialization Complete!${NC}"
 cat << EOF
 
 ${CYAN}🚀 Next Steps:${NC}
-1. ${GREEN}Build docs:${NC}   poetry run docs:build
-2. ${GREEN}View docs:${NC}    poetry run docs:serve
-3. ${GREEN}Start coding:${NC} Add your modules to src/
+1. ${GREEN}Run tests:${NC}    poetry run pytest -v tests/
+2. ${GREEN}Build docs:${NC}   poetry run docs:build
+3. ${GREEN}View docs:${NC}    poetry run docs:serve
+4. ${GREEN}Start coding:${NC} Add your modules to src/
 
 ${YELLOW}💡 Pro Tip:${NC} Use these quality-of-life commands:
    ${CYAN}poetry run format${NC}   - Auto-format code
