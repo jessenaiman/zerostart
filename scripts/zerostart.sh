@@ -1,5 +1,5 @@
 #!/bin/bash
-# ZeroStart: One-Command Python Project Initialization
+# ZeroStart: One-Command Python Project Initialization (Current Version: Python 3.13.2)
 # This script runs ALL necessary setup tasks in the correct order
 set -euo pipefail
 
@@ -25,19 +25,7 @@ check_venv() {
     fi
 }
 
-function show_header() {
-    clear
-    echo -e "${CYAN}"
-    echo "███████╗███████╗██████╗  ██████╗ ███████╗████████╗ █████╗ ██████╗ ████████╗"
-    echo "╚══███╔╝██╔════╝██╔══██╗██╔═══██╗██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝"
-    echo "  ███╔╝ █████╗  ██████╔╝██║   ██║███████╗   ██║   ███████║██████╔╝   ██║   "
-    echo " ███╔╝  ██╔══╝  ██╔══██╗██║   ██║╚════██║   ██║   ██╔══██║██╔══██╗   ██║   "
-    echo "███████╗███████╗██║  ██║╚██████╔╝███████║   ██║   ██║  ██║██║  ██║   ██║   "
-    echo "╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   "
-    echo -e "${NC}"
-    echo -e "${GREEN}One-Command Python Project Initialization${NC}"
-    echo
-}
+
 
 function handle_common_errors() {
     local error_output="$1"
@@ -146,7 +134,7 @@ install_poetry() {
     echo -e "\n${YELLOW}${ARROW} Checking for Poetry${NC}"
     if ! command -v poetry &>/dev/null; then
         echo -e "${CYAN}Installing Poetry...${NC}"
-        curl -sSL https://install.python-poetry.org | python3 -
+        pipx install poetry
         export PATH="$HOME/.local/bin:$PATH"  # Add poetry to path
     else
         echo -e "${GREEN}${CHECK} Poetry already installed${NC}"
@@ -421,7 +409,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
+        python-version: '3.13.2'
     
     - name: Install Poetry
       run: |
@@ -570,13 +558,13 @@ run_step "0.3" "Install Poetry" "install_poetry"
 run_step "1" "Create project structure" "mkdir -p src tests docs data"
 
 # Initialize Poetry project (if not already done)
-run_step "2" "Initialize Poetry project" "poetry init -n --python='^3.9'" true
+run_step "2" "Initialize Poetry project" "poetry init -n --python='^3.13.2'" true
 
 # Install dependencies by category
 echo -e "\n${CYAN}=== Installing Dependencies ===${NC}"
 
 # Core dependencies
-install_package_group "dev" "ruff mypy black isort flake8 flake8-docstrings pre-commit ipdb debugpy"
+install_package_group "dev" "mypy black isort flake8 flake8-docstrings pre-commit ipdb debugpy"
 install_package_group "test" "pytest pytest-cov hypothesis"
 install_package_group "docs" "sphinx sphinx-rtd-theme sphinx-autobuild"
 
