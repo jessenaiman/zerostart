@@ -11,17 +11,6 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 ARROW="➜"; CHECK="✓"; CROSS="❌"
 
-# Check prerequisites
-if [ ! -f "pyproject.toml" ]; then
-    echo -e "${RED}${CROSS} pyproject.toml not found. Are you in the project root?${NC}"
-    exit 1
-fi
-
-if ! command -v poetry &> /dev/null; then
-    echo -e "${RED}${CROSS} Poetry not found. Please run install_poetry.sh first${NC}"
-    exit 1
-fi
-
 # Install Sphinx and related dependencies
 echo -e "${YELLOW}${ARROW} Installing Sphinx and documentation dependencies${NC}"
 poetry add --group docs sphinx sphinx-rtd-theme myst-parser sphinx-autodoc-typehints sphinx-copybutton

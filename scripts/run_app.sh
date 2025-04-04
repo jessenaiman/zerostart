@@ -1,15 +1,16 @@
 #!/bin/bash
-# Run the Omega Spiral application
-set -e  # Exit on error
+# Application runner with environment checks
+set -eo pipefail
 
-echo "Starting Omega Spiral application..."
+source scripts/_colors.sh
 
-# Check if venv is activated
-if [ -z "$VIRTUAL_ENV" ]; then
-    echo "❌ Virtual environment not activated. Please run 'source .venv/Scripts/activate' (Windows) or 'source .venv/bin/activate' (Linux/MacOS) first."
-    exit 1
+# Check virtualenv
+if [ -z "${VIRTUAL_ENV:-}" ]; then
+  echo -e "${RED}❌ Activate virtualenv first!${NC}"
+  exit 1
 fi
 
-python -m src.omega_project.main
+echo -e "${CYAN}${BOLD}Launching Application${NC}"
+echo -e "${CYAN}─────────────────────${NC}"
 
-echo "✓ Application ran successfully"
+poetry run python -m src.main

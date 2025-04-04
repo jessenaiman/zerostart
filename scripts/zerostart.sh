@@ -136,17 +136,21 @@ install_poetry() {
     }
 }
 
+# Modify install_package_group() to show more details
 install_package_group() {
     local group="$1"; shift
-    echo -e "\n${CYAN}⚙️ Installing $group Dependencies:${NC}"
+    echo -e "\n${CYAN}⚙️ ${YELLOW}Installing $group Dependencies:${NC}"
+    echo -e "${GREEN}┌────────────────────────────────────┐${NC}"
+    printf "${GREEN}│%-34s│${NC}\n" "  📦 Packages:"
     for pkg in "$@"; do
-        echo -e "${YELLOW}➜ Adding $pkg...${NC}"
-        poetry add --group "$group" "$pkg" || {
-            echo -e "${RED}❌ Failed to install $pkg${NC}"
-            [ "$optional" = true ] || exit 1
-        }
-        echo -e "${GREEN}✓ $pkg installed${NC}"
+        printf "${GREEN}│ ${CYAN}• %-30s ${GREEN}│${NC}\n" "$pkg"
     done
+    echo -e "${GREEN}└────────────────────────────────────┘${NC}"
+    
+    # Install all packages at once
+    if [ -n "$*" ]; then
+        run_step "$group packages" "Adding $group packages" "poetry add --group $group $*" true
+    fi
 }
 
 
@@ -174,6 +178,69 @@ run_sample_app() {
         echo -e "${YELLOW}${WARNING} Sample app failed, but continuing setup${NC}"
     }
 }
+
+setup_documentation() {
+    echo -e "\n${YELLOW}${ARROW} Setting Up Professional Documentation${NC}"
+    if [ -f "scripts/install_sphinx.sh" ]; then
+        ./scripts/install_sphinx.sh
+    else
+        echo -e "${RED}${CROSS} Documentation script not found!${NC}"
+        echo -e "Get it from: https://example.com/install_sphinx.sh"
+    fi
+}
+
+def setup_coverage_check() -> None:
+    """Set up docstring coverage checking with interrogate."""
+    try:
+        import subprocess
+        
+        # Check if interrogate is installed
+        try:
+            subprocess.run(['interrogate', '--version'], check=True, capture_output=True)
+            print(f"{GREEN}{CHECK} interrogate is already installed{NC}")
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            print(f"{YELLOW}Installing interrogate...{NC}")
+            subprocess.run(['pip', 'install', 'interrogate'], check=True)
+            print(f"{GREEN}{CHECK} interrogate installed successfully{NC}")
+        
+        # Create interrogate configuration
+        pyproject_path = Path('pyproject.toml')
+        if pyproject_path.exists():
+            with open(pyproject_path, 'r') as f:
+                content = f.read()
+            
+            if '[tool.interrogate]' not in content:
+                with open(pyproject_path, 'a') as f:
+                    f.write('\n[tool.interrogate]\n')
+                    f.write('ignore-init-method = true\n')
+                    f.write('ignore-init-module = true\n')
+                    f.write('ignore-magic = false\n')
+                    f.write('ignore-semiprivate = false\n')
+                    f.write('ignore-private = false\n')
+                    f.write('ignore-module = false\n')
+                    f.write('ignore-nested-functions = false\n')
+                    f.write('ignore-nested-classes = false\n')
+                    f.write('fail-under = 80\n')  # 80% coverage required
+                print(f"{GREEN}{CHECK} Added interrogate configuration to pyproject.toml{NC}")
+        else:
+            with open(pyproject_path, 'w') as f:
+                f.write('[tool.interrogate]\n')
+                f.write('ignore-init-method = true\n')
+                f.write('ignore-init-module = true\n')
+                f.write('ignore-magic = false\n')
+                f.write('ignore-semiprivate = false\n')
+                f.write('ignore-private = false\n')
+                f.write('ignore-module = false\n')
+                f.write('ignore-nested-functions = false\n')
+                f.write('ignore-nested-classes = false\n')
+                f.write('fail-under = 80\n')  # 80% coverage required
+            print(f"{GREEN}{CHECK} Created pyproject.toml with interrogate configuration{NC}")
+        
+        print(f"{GREEN}{CHECK} Docstring coverage check setup complete{NC}")
+        print(f"{YELLOW}Run 'interrogate src/' to check docstring coverage{NC}")
+        
+    except Exception as e:
+        print(f"{RED}{CROSS} Error setting up coverage check: {e}{NC}")
 
 # Added package verification step
 verify_packages() {
@@ -203,9 +270,29 @@ run_step "2" "Initialize Poetry project" "poetry init -n --python='^3.13.2'" tru
 echo -e "\n${CYAN}=== Installing Dependencies ===${NC}"
 
 # Core dependencies
-install_package_group "dev" "mypy black isort flake8 flake8-docstrings pre-commit ipdb debugpy"
-install_package_group "test" "pytest pytest-cov hypothesis pytest-mock pytest-benchmark hypothesis green"
-install_package_group "docs" "sphinx sphinx-rtd-theme sphinx-autobuild"
+install_package_group "core" "/
+    pydantic /
+    tomli /"
+
+install_package_group "dev" "/
+    mypy /
+    black /
+    isort / 
+    flake8 / 
+    flake8-docstrings / 
+    pre-commit /
+    ipdb /
+    debugpy"
+
+install_package_group "test" "/
+    pytest /
+    pylint /
+    pytest-cov /
+    hypothesis / 
+    pytest-mock / 
+    pytest-benchmark / 
+    hypothesis / 
+    green"
 
 # Documentation Setup
 echo -e "\n${CYAN}=== Professional Documentation Setup ===${NC}"
@@ -215,22 +302,33 @@ run_step "3.1" "Setup Documentation" "setup_documentation"
 echo -e "\n${CYAN}=== Installing Optional Category-Specific Dependencies ===${NC}"
 echo -e "${YELLOW}You can add your specific dependencies for each category${NC}"
 
-install_package_group "dev" "rich loguru"  # General purpose utilities
-install_package_group "web" "fastapi uvicorn jinja2" true  # Web development
-install_package_group "data" "pandas numpy matplotlib seaborn" true  # Data science
-install_package_group "game" "arcade pyglet" true  # Game development
-install_package_group "db" "sqlalchemy alembic" true  # Database
+install_package_group "dev" "/
+    rich 
+    loguru"  # General purpose utilities
+install_package_group "web" "/
+    fastapi /
+    uvicorn /
+    jinja2" true  # Web development
+#nstall_package_group "data" "pandas numpy matplotlib seaborn" true  # Data science
+install_package_group "game" "/
+    arcade /
+    pygame /
+    alive-progress /
+    curses /
+    pyglet" true  # Game development
+install_package_group "db" "/
+    sqlalchemy /
+     /
+    " true  # Database
 
 # Setup project components
 echo -e "\n${CYAN}=== Setting Up Project Components ===${NC}"
-run_step "3.2" "Create Sphinx documentation" "create_sphinx_docs"
 run_step "3.3" "Update pyproject.toml with scripts" "update_pyproject"
 
 # Verification steps
 echo -e "\n${CYAN}=== Verifying Installation ===${NC}"
 run_step "4.1" "Run tests" "run_tests" true
 run_step "4.2" "Run sample application" "run_sample_app" true
-run_step "4.3" "Build documentation" "build_docs" true
 
 # Added to main execution flow
 run_step "5" "Verify Installed Packages" "verify_packages"
