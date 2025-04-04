@@ -22,29 +22,6 @@ if ! command -v poetry &> /dev/null; then
     exit 1
 fi
 
-# Check if virtual environment is activated
-if [ -z "${VIRTUAL_ENV:-}" ]; then
-    echo -e "${YELLOW}${ARROW} Activating virtual environment${NC}"
-    if [ -d ".venv" ]; then
-        # Platform-specific activation
-        if [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "darwin"* ]]; then
-            source .venv/bin/activate
-        elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
-            source .venv/Scripts/activate
-        else
-            echo -e "${RED}${CROSS} Unsupported OS for auto-activation${NC}"
-            echo "Please activate manually:"
-            echo "  Linux/Mac: source .venv/bin/activate"
-            echo "  Windows: .venv\\Scripts\\activate"
-            exit 1
-        fi
-        echo -e "${GREEN}${CHECK} Virtual environment activated${NC}"
-    else
-        echo -e "${RED}${CROSS} Virtual environment not found. Run zerostart_init.sh first${NC}"
-        exit 1
-    fi
-fi
-
 # Install Sphinx and related dependencies
 echo -e "${YELLOW}${ARROW} Installing Sphinx and documentation dependencies${NC}"
 poetry add --group docs sphinx sphinx-rtd-theme myst-parser sphinx-autodoc-typehints sphinx-copybutton
@@ -73,8 +50,8 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # Project information
 project = '$PROJECT_NAME'
-copyright = '2025, ZeroStart Team'
-author = 'ZeroStart Team'
+copyright = '2025, Jesse Naiman'
+author = 'Jesse Naiman'
 
 # General configuration
 extensions = [
@@ -87,6 +64,10 @@ extensions = [
     'sphinx_autodoc_typehints',
     'sphinx_copybutton',
     'myst_parser',
+    'sphinx_autodoc_typehints',
+    'sphinx_copybutton',
+    'sphinx_design',
+    'sphinxcontrib.mermaid',
 ]
 
 templates_path = ['_templates']
@@ -95,6 +76,11 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # HTML output
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+html_theme_options = {
+    'style_nav_header_background': '#2980b9',
+    'collapse_navigation': False,
+    'titles_only': True
+}
 
 # Extension configuration
 autodoc_member_order = 'bysource'
@@ -291,7 +277,7 @@ EOF
 
 # Create a Makefile for building documentation
 echo -e "${YELLOW}${ARROW} Creating documentation Makefile${NC}"
-cat > Makefile << EOF
+cat > docs/Makefile << EOF
 # Minimal makefile for Sphinx documentation
 
 # You can set these variables from the command line, and also
