@@ -109,68 +109,6 @@ attempt() {
 
     # --- Post-Install Setup ---
     attempt "Configuring tools"
-    
-    # Setup Black configuration
-    cat > pyproject.toml << EOF
-[tool.black]
-line-length = 120
-target-version = ['py313']
-include = '\.pyi?$'
-
-[tool.isort]
-profile = "black"
-line_length = 120
-
-[tool.mypy]
-python_version = ">=3.13.2"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = "test_*.py"
-python_functions = "test_*"
-
-[tool.poetry.scripts]
-start = "src.main:main"
-EOF
-
-    # Setup pre-commit hooks
-    attempt "Configuring pre-commit hooks"
-    cat > .pre-commit-config.yaml << EOF
-repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
-    hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
-    -   id: check-yaml
-    -   id: check-added-large-files
-
--   repo: https://github.com/psf/black
-    rev: 24.1.1
-    hooks:
-    -   id: black
-
--   repo: https://github.com/pycqa/isort
-    rev: 5.13.2
-    hooks:
-    -   id: isort
-
--   repo: https://github.com/pycqa/flake8
-    rev: 7.0.0
-    hooks:
-    -   id: flake8
-        additional_dependencies: [flake8-docstrings]
-
--   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
-    hooks:
-    -   id: mypy
-        additional_dependencies: [types-all]
-EOF
 
     poetry run pre-commit install
 

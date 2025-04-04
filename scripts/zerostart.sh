@@ -11,6 +11,20 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 ARROW="➜"; CHECK="✓"; CROSS="❌"; WARNING="⚠️"
 
+# Function to check if a virtual environment is active
+check_venv() {
+    if [ -z "${VIRTUAL_ENV:-}" ]; then
+        echo -e "${RED}${CROSS} No virtual environment detected!${NC}"
+        echo -e "${YELLOW}${ARROW} Please activate your virtual environment before running this script.${NC}"
+        echo -e "${CYAN}Run the following command based on your OS:${NC}"
+        echo -e "  Linux/Mac: ${CYAN}source .venv/bin/activate${NC}"
+        echo -e "  Windows: ${CYAN}.venv\\Scripts\\activate${NC}"
+        exit 1
+    else
+        echo -e "${GREEN}${CHECK} Virtual environment detected: ${VIRTUAL_ENV}${NC}"
+    fi
+}
+
 function show_header() {
     clear
     echo -e "${CYAN}"
@@ -103,18 +117,7 @@ activate_venv() {
     echo -e "\n${YELLOW}${ARROW} Activating virtual environment${NC}"
     
     # Get Python version to use
-    PYTHON_CMD="python3"
-    if command -v python3.13 &>/dev/null; then
-        PYTHON_CMD="python3.13"
-    elif command -v python3.12 &>/dev/null; then
-        PYTHON_CMD="python3.12"
-    elif command -v python3.11 &>/dev/null; then
-        PYTHON_CMD="python3.11"
-    elif command -v python3.10 &>/dev/null; then
-        PYTHON_CMD="python3.10"
-    elif command -v python3.9 &>/dev/null; then
-        PYTHON_CMD="python3.9"
-    fi
+    PYTHON_CMD="python3.13.2"
     
     echo -e "${CYAN}Using Python: $($PYTHON_CMD --version)${NC}"
     
@@ -134,6 +137,8 @@ activate_venv() {
         echo "  Windows: .venv\\Scripts\\activate"
         exit 1
     fi
+
+    # Pause for virtual environment activation
     echo -e "${GREEN}${CHECK} Virtual environment activated${NC}"
 }
 
@@ -310,8 +315,8 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # Project information
 project = 'ZeroStart Project'
-copyright = '2025, ZeroStart Team'
-author = 'ZeroStart Team'
+copyright = '2025, Jesse Naiman'
+author = 'Jesse Naiman'
 
 # General configuration
 extensions = [
@@ -553,6 +558,9 @@ build_docs() {
 # --- Main Execution ---
 show_header
 
+# Check if the virtual environment is active
+check_venv
+
 # Pre-setup verification
 run_step "0.1" "Verify system permissions" "setup_permissions"
 run_step "0.2" "Activate virtual environment" "activate_venv"
@@ -618,3 +626,8 @@ Next Steps:
 
 Your project is now ready for GitHub CI/CD!
 EOF
+
+[project]
+name = "zerostart"
+version = "0.1.0"
+requires-python = ">=3.13.2"

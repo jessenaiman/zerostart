@@ -6,8 +6,8 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # Project information
 project = 'ZeroStart Project'
-copyright = '2025, ZeroStart Team'
-author = 'ZeroStart Team'
+copyright = '2025, Jesse Naiman'
+author = 'Jesse Naiman'
 
 # General configuration
 extensions = [
