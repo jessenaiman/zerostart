@@ -1,6 +1,42 @@
 # This is handled by ruff at [ruff.toml]
 # Ruff is a fast linter and formatter for Python, replacing tools like flake8, isort, and pylint.
 # See https://docs.astral.sh/ruff/ for full documentation.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "docs"
+]
+
+# Assume Python 3.13.2
+target-version = "py313"
+
+# Align with black's formatting style.
+line-length = 88
+indent-width = 4
 
 [lint]
 # Enable rules that align with the project's style.
@@ -11,18 +47,24 @@ select = [
     "I",  # isort
     "D",  # pydocstyle
     "B",  # flake8-bugbear
+    "D401",  # (first-line imperative) to select for better docstrings.
+    "ANN",  # Type annotations (PEP 484)
+    "UP",   # Pyupgrade for 3.13 syntax (e.g., union types with |)
+    "RUF"   # Ruff-specific best practices
 ]
 ignore = [
     "D203",  # Conflicts with D211 (class docstring style)
     "D213",  # Conflicts with D212 (multi-line docstring summary)
 ]
 
-[format]
-# Align with black's formatting style.
-line-length = 88
-indent-style = "space"
-indent-width = 4
-
+# Docstring style
 [lint.pydocstyle]
-# Use Google-style docstrings, consistent with the project's setup.
 convention = "google"
+
+# Per-file overrides
+[lint.per-file-ignores]
+"docs/source/conf.py" = ["D100", "INP001"]  # No docstring, implicit namespace
+
+# Formatting
+[format]
+quote-style = "double"

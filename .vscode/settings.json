@@ -1,18 +1,9 @@
 {
-    "python.linting.enabled": true,
-    "python.linting.ruffEnabled": true,
-    "python.linting.flake8Enabled": false,  // Disable flake8 since ruff handles linting
-    "python.formatting.provider": "black",
+
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "ms-python.python",
-    "python.linting.ruffArgs": [
-        "--config",
-        "${workspaceFolder}/ruff.toml"
-    ],
-    "isort.args": [
-        "--profile",
-        "black"
-    ],
+    "editor.defaultFormatter": "ms-python.debugpy",
+    "htmlhint.enable": false,  // Disable HTML linting
+    "webhint.enable": false,    // Disable webhint (Edge Tools source)
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,

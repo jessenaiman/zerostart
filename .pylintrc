@@ -1,0 +1,15 @@
+[MASTER]
+disable=
+    missing-module-docstring,  # Require module docstrings
+    missing-class-docstring,   # Require class docstrings
+    missing-function-docstring # Require function docstrings
+
+[FORMAT]
+max-line-length=88
+
+[DESIGN]
+max-args=5
+max-locals=15
+max-returns=6
+max-branches=12
+max-statements=50

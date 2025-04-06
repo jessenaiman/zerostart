@@ -1,0 +1,6 @@
+{
+    "extends": ["development"],
+    "files": {
+      "exclude": ["**/docs/build/**", "**/docs/source/**"]
+    }
+  }

@@ -1,5 +1,6 @@
 from loguru import logger
 
+
 class DemoApp:
     """A demonstration application for ZeroStart.
 
@@ -8,6 +9,7 @@ class DemoApp:
     Attributes:
         name (str): The name of the application.
     """
+
     def __init__(self, name: str) -> None:
         """Initialize the DemoApp with a name.
 
