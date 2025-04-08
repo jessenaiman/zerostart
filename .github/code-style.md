@@ -1,29 +1,29 @@
 # PEP 8 (Code formatting)
-PEP 8 (Python Enhancement Proposal 8) is the official style guide for Python code. It provides guidelines to improve the readability and consistency of Python code.  
+PEP 8 (Python Enhancement Proposal 8) is the official style guide for Python code. It provides guidelines to improve the readability and consistency of Python code.
 
-**Common PEP 8 Issues in Python:**  
+**Common PEP 8 Issues in Python:**
 
-1. **Indentation Errors**  
-   - Use **4 spaces per indentation level** (avoid tabs).  
-   - ❌ **Bad:**  
+1. **Indentation Errors**
+   - Use **4 spaces per indentation level** (avoid tabs).
+   - ❌ **Bad:**
      ```python
      def foo():
        print("Hello")  # Incorrect indentation (2 spaces)
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
      def foo():
          print("Hello")  # Correct indentation (4 spaces)
      ```
 
-2. **Line Length Exceeds 79 Characters**  
-   - Keep lines **≤79 characters** (preferably **≤72 for comments**).  
-   - Use line breaks or implicit line continuation (`\`).  
-   - ❌ **Bad:**  
+2. **Line Length Exceeds 79 Characters**
+   - Keep lines **≤79 characters** (preferably **≤72 for comments**).
+   - Use line breaks or implicit line continuation (`\`).
+   - ❌ **Bad:**
      ```python
-     print("This is a very long line that exceeds the recommended 79 characters limit, which should be avoided.")  
+     print("This is a very long line that exceeds the recommended 79 characters limit, which should be avoided.")
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
      print(
          "This is a very long line that exceeds the recommended 79 characters limit, "
@@ -31,135 +31,135 @@ PEP 8 (Python Enhancement Proposal 8) is the official style guide for Python cod
      )
      ```
 
-3. **Whitespace Issues**  
-   - Avoid extra spaces around operators or inside parentheses.  
-   - ❌ **Bad:**  
+3. **Whitespace Issues**
+   - Avoid extra spaces around operators or inside parentheses.
+   - ❌ **Bad:**
      ```python
      a = ( 1, 2 )  # Spaces inside parentheses
      b  =  5  + 2  # Extra spaces around `=`, `+`
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
      a = (1, 2)
      b = 5 + 2
      ```
 
-4. **Blank Lines**  
-   - Use **2 blank lines** before top-level functions and classes.  
-   - Use **1 blank line** between methods inside a class.  
-   - ❌ **Bad:**  
+4. **Blank Lines**
+   - Use **2 blank lines** before top-level functions and classes.
+   - Use **1 blank line** between methods inside a class.
+   - ❌ **Bad:**
      ```python
      def foo():
          pass
      def bar():
          pass
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
      def foo():
          pass
-     
-     
+
+
      def bar():
          pass
      ```
 
-5. **Improper Naming Conventions**  
-   - Variable names should be **lower_case_with_underscores**.  
-   - Constants should be **UPPER_CASE_WITH_UNDERSCORES**.  
-   - Class names should use **CamelCase**.  
-   - ❌ **Bad:**  
+5. **Improper Naming Conventions**
+   - Variable names should be **lower_case_with_underscores**.
+   - Constants should be **UPPER_CASE_WITH_UNDERSCORES**.
+   - Class names should use **CamelCase**.
+   - ❌ **Bad:**
      ```python
      myVariable = 10  # Wrong variable naming
      class myclass:  # Wrong class naming
          pass
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
-     my_variable = 10  
-     
+     my_variable = 10
+
      class MyClass:
          pass
      ```
 
-6. **Unused Imports**  
-   - Remove unused imports to keep the code clean.  
-   - ❌ **Bad:**  
+6. **Unused Imports**
+   - Remove unused imports to keep the code clean.
+   - ❌ **Bad:**
      ```python
      import os  # Not used in the script
      import sys  # Not used either
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
      import os  # Used in the script
      print(os.name)
      ```
 
-7. **Trailing Whitespace**  
-   - Avoid unnecessary spaces at the end of a line.  
-   - ❌ **Bad:**  
+7. **Trailing Whitespace**
+   - Avoid unnecessary spaces at the end of a line.
+   - ❌ **Bad:**
      ```python
-     print("Hello, World!")    
+     print("Hello, World!")
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
      print("Hello, World!")
      ```
 
-8. **Improper Use of `if __name__ == "__main__":`**  
-   - Always use this when writing scripts that should only execute when run directly.  
-   - ✅ **Good:**  
+8. **Improper Use of `if __name__ == "__main__":`**
+   - Always use this when writing scripts that should only execute when run directly.
+   - ✅ **Good:**
      ```python
      def main():
          print("Running script")
-     
+
      if __name__ == "__main__":
          main()
      ```
 
-9. **Improper Exception Handling**  
-   - Avoid using `except:` without specifying the exception type.  
-   - ❌ **Bad:**  
+9. **Improper Exception Handling**
+   - Avoid using `except:` without specifying the exception type.
+   - ❌ **Bad:**
      ```python
      try:
          x = 1 / 0
      except:
          print("Error!")  # Catches all exceptions (bad practice)
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
      try:
          x = 1 / 0
      except ZeroDivisionError:
          print("Cannot divide by zero.")
      ```
-   
-### 10. **Module and Import Ordering**  
-   - Follow the correct import order:  
-     1. **Standard library imports** (e.g., `os`, `sys`)  
-     2. **Third-party imports** (e.g., `numpy`, `pandas`)  
-     3. **Local application imports**  
-   - Separate each section with a **blank line**.  
-   - ❌ **Bad:**  
+
+### 10. **Module and Import Ordering**
+   - Follow the correct import order:
+     1. **Standard library imports** (e.g., `os`, `sys`)
+     2. **Third-party imports** (e.g., `numpy`, `pandas`)
+     3. **Local application imports**
+   - Separate each section with a **blank line**.
+   - ❌ **Bad:**
      ```python
      import numpy as np
      import os
      from my_module import my_function
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
-     import os  
-     import sys  
+     import os
+     import sys
 
-     import numpy as np  
-     import pandas as pd  
+     import numpy as np
+     import pandas as pd
 
-     from my_module import my_function  
+     from my_module import my_function
      ```
 
-### 11. **Trailing Commas in Lists, Tuples, and Dicts**  
-   - Use trailing commas in multi-line structures to avoid syntax errors when adding new elements.  
-   - ✅ **Good:**  
+### 11. **Trailing Commas in Lists, Tuples, and Dicts**
+   - Use trailing commas in multi-line structures to avoid syntax errors when adding new elements.
+   - ✅ **Good:**
      ```python
      my_dict = {
          "name": "Alice",
@@ -168,30 +168,30 @@ PEP 8 (Python Enhancement Proposal 8) is the official style guide for Python cod
      }
      ```
 
-### 12. **Docstrings and Comments**  
-   - Use **docstrings** for modules, functions, and classes.  
-   - Write comments **sparingly** and only when necessary.  
-   - ❌ **Bad:**  
+### 12. **Docstrings and Comments**
+   - Use **docstrings** for modules, functions, and classes.
+   - Write comments **sparingly** and only when necessary.
+   - ❌ **Bad:**
      ```python
      def add(a, b):  # This function adds two numbers
          return a + b
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
      def add(a, b):
          """Return the sum of two numbers."""
          return a + b
      ```
 
-### 13. **Avoid Mutable Default Arguments**  
-   - Default arguments should **not** be mutable (like lists or dictionaries) to prevent unexpected behavior.  
-   - ❌ **Bad:**  
+### 13. **Avoid Mutable Default Arguments**
+   - Default arguments should **not** be mutable (like lists or dictionaries) to prevent unexpected behavior.
+   - ❌ **Bad:**
      ```python
      def add_item(item, items=[]):  # Dangerous!
          items.append(item)
          return items
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
      def add_item(item, items=None):
          if items is None:
@@ -200,24 +200,24 @@ PEP 8 (Python Enhancement Proposal 8) is the official style guide for Python cod
          return items
      ```
 
-### 14. **Use Meaningful Variable Names**  
-   - Avoid single-letter variables (except in loops or mathematical expressions).  
-   - ❌ **Bad:**  
+### 14. **Use Meaningful Variable Names**
+   - Avoid single-letter variables (except in loops or mathematical expressions).
+   - ❌ **Bad:**
      ```python
      x = 10  # What is 'x'?
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
-     user_age = 10  
+     user_age = 10
      ```
 
-### 15. **Avoid Multiple Statements on One Line**  
-   - Write **one statement per line** for better readability.  
-   - ❌ **Bad:**  
+### 15. **Avoid Multiple Statements on One Line**
+   - Write **one statement per line** for better readability.
+   - ❌ **Bad:**
      ```python
      if x > 0: print("Positive")  # Avoid
      ```
-   - ✅ **Good:**  
+   - ✅ **Good:**
      ```python
      if x > 0:
          print("Positive")
@@ -263,7 +263,7 @@ This module provides helper functions for data validation and transformation.
 ```python
 class Car:
     """A class representing a car.
-    
+
     Attributes:
         make (str): The manufacturer of the car.
         model (str): The model of the car.
@@ -282,11 +282,11 @@ class Car:
 ```python
 def add(a, b):
     """Return the sum of two numbers.
-    
+
     Args:
         a (int): First number.
         b (int): Second number.
-    
+
     Returns:
         int: The sum of `a` and `b`.
     """
@@ -307,16 +307,16 @@ def square(n):
 ```python
 def divide(a, b):
     """Divide two numbers and return the result.
-    
+
     This function returns `a / b`. If `b` is zero, it raises a `ZeroDivisionError`.
-    
+
     Args:
         a (int): Numerator.
         b (int): Denominator.
-    
+
     Returns:
         float: The result of division.
-    
+
     Raises:
         ZeroDivisionError: If `b` is zero.
     """
@@ -331,10 +331,10 @@ def divide(a, b):
 ```python
 class Animal:
     """A class representing an animal."""
-    
+
     def __init__(self, name):
         """Initialize the animal with a name.
-        
+
         Args:
             name (str): The name of the animal.
         """
@@ -595,4 +595,3 @@ class Example:
 ---
 
  
-
