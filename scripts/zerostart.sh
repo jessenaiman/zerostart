@@ -2,7 +2,7 @@
 # ZeroStart: One-Command Python Project Initialization
 set -euo pipefail
 
-source scripts/terminal_ui.sh
+source ./terminal_ui.sh
 
 show_header
 

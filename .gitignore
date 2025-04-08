@@ -1,0 +1,7 @@
+.benchmarks
+.idea
+.mypy_cache
+__pycache__
+.ruff_cache
+.venv
+vscode-copilot-docs
